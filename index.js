@@ -28,13 +28,12 @@ let munSanat = (["vadelmavene","kirkonkello","helmisimpukka","tukkapölly","COVI
         "sinivalas","verikosto","meripihka","tuomiopäivä","liikuntamaa","trampoliini","posliini","mansikkarahka",
         "haisunäätä","valkosipuli","maissintähkä","Fennovoima","tulipunainen","kävelykeppi","kermavaahto",
         "mehulinko","kanisteri","majakka","savustin","paloasema","palolaitos","matkamittari","parkkipirkko",
-        "festivaali","syntymäpäivä","tunturipöllö","komissaari","ratapölkky","asfaltti","perussuomalaiset"
+        "festivaali","syntympäivä","tunturipöllö","komissaari","ratapölkky","asfaltti","perussuomalaiset"
          ]);
 
 startgame();
 arvo();
 
-// Toiminnot peliikkunan auetessa
 window.onload=function(){
     document.getElementById("reset").style.visibility="hidden";
     document.querySelector('#tekstikentta').focus();
@@ -47,23 +46,20 @@ form.addEventListener('submit', function(e) {
     e.preventDefault();
 });
 
-// funktio pelin aloitus (Kirjoita oikeat tekstit pelin aloitukseen)
 function startgame() {
 h1.innerHTML="Old School Hangman";
 h2.innerHTML="Tervetuloa hirsipuupeliin!";
 startinfo.innerHTML="Kirjoita alle kirjain, jonka luulet <br>sisältyvän arpomaani sanaan.<br><br>Voit myös arvata kerralla koko sanan.<br>Sinulla on 10 yritystä!<br><br>Onnea matkaan!<br><br>";
 }
 
-// tämä ajetaan kun nappia painellaan
 submitBtn.addEventListener('click', function() {
     validateForm();
 });
 
-// Sanalistalta arvattava sana ja tuikkaa ruutuun
 function arvo(){
     var wordcnt = munSanat.length;
     arvottuSana = Math.floor(Math.random() * wordcnt);
-    // pistetään tää piiloon ettei näy edes konsolissa console.log("Arvottu sana: " + munSanat[arvottuSana]);
+    // pistetään tää piiloon ettei näy edes konsolissa  console.log("Arvottu sana: " + munSanat[arvottuSana]);
     arvottuSana = munSanat[arvottuSana];
     for (var i = 0; i < arvottuSana.length; i++) {
         oikeakirjain[i] = "_";
@@ -74,7 +70,6 @@ function arvo(){
     kirjainarray = [...arvottuSana];
 }
 
-// Tarkistaa onko syöttöarvo tyhjä ja etenee sen mukaan
 function validateForm() {
     var a = guessInput.value;
     a = a.replace(/[+]/gi,'');
@@ -96,11 +91,10 @@ function validateForm() {
     }
 }
 
-//siivoa arvaus funktio
 function cleaninput(){
     arvaus = guessInput.value;
     riisuttu = arvaus.replace(/[^a-z+öäå]/gi,'');
-    riisuttu = riisuttu.toLowerCase(); //muutetaan pieniksi kirjaimiksi ja poistetaan ei halutut merkit
+    riisuttu = riisuttu.toLowerCase();
     var unique = kirjainarray.filter((v, i, a) => a.indexOf(v) === i); 
     console.log("Löydettävässä sanassa on kirjaimia: " + unique.length);
 
@@ -109,23 +103,17 @@ function cleaninput(){
     }
 
     else if (kirjainarray.includes(riisuttu)===true){
-        //alert("kirjainarray sisältää riisutun - eli ensimmäinen tarkistus");
             if(kaikkiarvaukset.includes(riisuttu)===true){
-                //alert("tämä " + riisuttu + " on jo arvattu!")
                 alertti.innerHTML="<b>Ei kannata tuhlata yrityksiä arvaamalla samoja kirjaimia!</b>";
                 vaaratkirjaimet.push(riisuttu);
-                console.log(riisuttu);
                 joarvotut.innerHTML=kaikkiarvaukset.join(", ");
                 klikki2+=1;
                 joarvotut.innerHTML="Olet arvannut seuraavasti: " + kaikkiarvaukset.join(", ");
-                console.log("Vääriä arvauksia klikki2: " + klikki2);
                 }
             else if (kaikkiarvaukset.includes(riisuttu)===false){
                 alertti.innerHTML="";
                 kaikkiarvaukset.push(riisuttu);
-                console.log(kaikkiarvaukset);
                 klikki+=1;
-                console.log("Kirjaimia oikein klikki1: " + klikki);
                 joarvotut.innerHTML="Olet arvannut seuraavasti: " +kaikkiarvaukset.join(", ");
             }
             if(klikki===unique.length){winner();}
@@ -133,9 +121,6 @@ function cleaninput(){
     else if (kirjainarray.includes(riisuttu)===false){
         klikki2+=1;
         kaikkiarvaukset.push(riisuttu);
-        console.log("kirjainta ei löydy sanasta")
-        console.log("Vääriä arvauksia klikki2: " + klikki2);
-        arvaustenmaara.innerHTML = "<b><br>Arvauskertoja jäljellä: " + (10-(klikki+klikki2)) + "/10</b>";
         alertti.innerHTML="<b>Ei ollut oikea sana!</b>";
         joarvotut.innerHTML="Olet arvannut seuraavasti: " + kaikkiarvaukset.join(", ");
     }
