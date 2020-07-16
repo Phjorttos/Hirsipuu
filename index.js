@@ -28,7 +28,7 @@ let munSanat = (["vadelmavene","kirkonkello","helmisimpukka","tukkapölly","COVI
         "sinivalas","verikosto","meripihka","tuomiopäivä","liikuntamaa","trampoliini","posliini","mansikkarahka",
         "haisunäätä","valkosipuli","maissintähkä","Fennovoima","tulipunainen","kävelykeppi","kermavaahto",
         "mehulinko","kanisteri","majakka","savustin","paloasema","palolaitos","matkamittari","parkkipirkko",
-        "festivaali","syntympäivä","tunturipöllö","komissaari","ratapölkky","asfaltti","perussuomalaiset"
+        "festivaali","syntymäpäivä","tunturipöllö","komissaari","ratapölkky","asfaltti","perussuomalaiset"
          ]);
 
 startgame();
@@ -63,7 +63,7 @@ submitBtn.addEventListener('click', function() {
 function arvo(){
     var wordcnt = munSanat.length;
     arvottuSana = Math.floor(Math.random() * wordcnt);
-    console.log("Arvottu sana: " + munSanat[arvottuSana]);
+    // pistetään tää piiloon ettei näy edes konsolissa console.log("Arvottu sana: " + munSanat[arvottuSana]);
     arvottuSana = munSanat[arvottuSana];
     for (var i = 0; i < arvottuSana.length; i++) {
         oikeakirjain[i] = "_";
@@ -142,8 +142,6 @@ function cleaninput(){
 kirjainhandler();    
 }
 
-// funktio joka käsittelee käsittelee kirjaimen vs arvottu sana
-///////////// tarkistappa vielä ettei ole jo
 function kirjainhandler(){
         for (var i = 0; i < kirjainarray.length; i++) {
             if (kirjainarray[i] === riisuttu) {
@@ -154,29 +152,23 @@ function kirjainhandler(){
         } 
 }
 
-// Onko lause vai ei
 function lausetchk(){
     if(guessInput.value.length > 1 ){
         if(arvottuSana === guessInput.value){
         guru=true;
-        console.log("koko sanan arvaus oikein!");
         }
         else if (arvottuSana != guessInput.value){guru=false;}
-        console.log("ei ole oikea lause");
     }
 }
 
-// Käsitellään annetu syöte ja tehdään set
 function arvaushandler(){
     if (guru===true){console.log(guru);winner();}
     else if ((klikki+klikki2)<=9){
-        // if is guessed already
         cleaninput();
     } 
     else {gameover()}
 }
 
-// Pelin päättäminen
 function gameover(){
     divi.style.display = 'none';
     h1.innerHTML="GAME OVER <br><br> Käytit kaikki yrityksesi :(<br><br>";
@@ -189,15 +181,13 @@ function gameover(){
     document.getElementById("reset").style.visibility="visible";
 }
 
-// Pelin voittaminenn
 function winner(){
     divi.style.display = 'none';
     document.querySelector('h2').textContent="Arvattava sana oli: " + arvottuSana;
     startinfo.innerHTML="<h1>VOITIT! USKOMATON ARVAUS!</h1>";
-    wordinfo.innerHTML="Käytit arvauksia " + (1+(klikki+klikki2)) + "/10"; ////////tarkista tää lopuksi
+    wordinfo.innerHTML="Käytit arvauksia " + (1+(klikki+klikki2)) + "/10";
     secretword.innerHTML="";
     arvaustenmaara.innerHTML = "";
-    //arvaustenmaara.innerHTML = "Arvaukset: "+(klikki+klikki2)+"/10";
     alertti.innerHTML="<b>Minun täytyy keksiä vaikeampia sanoja.</b>";
     voitto=true;
     document.getElementById("reset").style.visibility="visible";
